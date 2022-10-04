@@ -1,0 +1,45 @@
+@import "./base.css";
+
+/* Bootstrap Overrides */
+.btn-primary {
+  background-color: var(--vt-c-blue);
+  border-color: var(--vt-c-blue-dark);
+  border-width: 2px;
+}
+.btn-primary:hover {
+  background-color: var(--vt-c-blue-dark);
+  border-color: var(--vt-c-blue-dark);
+}
+/* End Bootstrap Overrides */
+
+#app {
+  height: 100%;
+  max-width: 1280px;
+  font-weight: normal;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.app__container {
+  height: 100%;
+  display: grid;
+  grid-template-rows: min-content auto min-content;
+}
+
+.app__content-container {
+  display: grid;
+  grid-template-rows: auto min-content;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: var(--vt-c-green);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
