@@ -18,7 +18,6 @@ export default {
     const stillInitiallyLoading = reactive({ value: false });
 
     const onGridReady = (params) => {
-      console.log("onGridReady");
       gridApi.value = params.api;
       gridColumnApi.value = params.columnApi;
 
@@ -35,12 +34,9 @@ export default {
        */
 
       const updateData = (data) => {
-        console.log("updateData", data);
         const datasource = {
           rowCount: undefined,
           getRows: (params) => {
-            console.log("getRows", params);
-            console.log("page getting:", params.endRow / 100);
             const reqParams = {
               vs_currency: "usd",
               page: params.endRow / 100,
@@ -66,7 +62,6 @@ export default {
             }
 
             if (reqParams.page === 1 && !initiallyLoaded.value) {
-              console.log("initiallyLoading2", initiallyLoading);
               initiallyLoading.value = true;
 
               setTimeout(() => {
@@ -170,16 +165,6 @@ export default {
             getValueInUsd(params, "market_cap", { roundToDollar: true }),
           sortable: true,
         },
-        // {
-        //   field: "market_cap_change_percentage_24h",
-        //   headerName: "24h Market Cap Change",
-        //   hide: true,
-        // },
-        // {
-        //   field: "fully_diluted_valuation",
-        //   headerName: "Fully Diluted Valuation",
-        //   hide: true,
-        // },
         {
           field: "high_24h",
           headerName: "24h High",
@@ -195,19 +180,6 @@ export default {
           headerName: "All-Time High",
           valueGetter: (params) => getValueInUsd(params, "ath"),
         },
-        // {
-        //   field: "last_updated",
-        //   headerName: "Last Updated",
-        //   valueGetter: (params) => {
-        //     const coin = params.data;
-
-        //     if (!coin) return null;
-
-        //     return DateTime.fromISO(coin.last_updated).toLocaleString(
-        //       DateTime.DATETIME_SHORT
-        //     );
-        //   },
-        // },
       ],
     });
     const defaultColDef = { sortable: false };
@@ -271,8 +243,6 @@ export default {
 .grid-loading__container {
   border-radius: 5px;
   top: 0px;
-  // background-color: var(--vt-c-black-soft);
-  // opacity: 0.5;
   background-color: rgb(34, 34, 34, 0.5);
 }
 </style>

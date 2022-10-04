@@ -12,7 +12,6 @@ import {
   LinearScale,
   PointElement,
   CategoryScale,
-  // Plugin,
 } from "chart.js";
 import { DateTime } from "luxon";
 
@@ -34,7 +33,6 @@ export default defineComponent({
   props: ["coinData"],
   setup(props) {
     const coin = useCoinHistoryModalStore().data;
-    console.log("props", props.coinData);
     const chartData = {
       labels: props.coinData.prices.map((price) => {
         const dateAndTime = DateTime.fromMillis(price[0]).toLocaleString(
@@ -90,7 +88,6 @@ export default defineComponent({
               return formatAndRoundCurrency(value);
             },
           },
-          // backgroundColor: "red"
         },
       },
       scales: {
@@ -122,14 +119,6 @@ export default defineComponent({
         width: 400,
         height: 500,
         cssClasses: "",
-        // styles: () => {},
-        // plugins: () => [],
-        // chartId: props.chartId,
-        // width: props.width,
-        // height: props.height,
-        // cssClasses: props.cssClasses,
-        // styles: props.styles,
-        // plugins: props.plugins,
       });
   },
 });
