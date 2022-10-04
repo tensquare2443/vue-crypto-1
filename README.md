@@ -1,6 +1,6 @@
-# 2022-test-project-1
+# Vue Crypto Chart App
 
-This template should help get you started developing with Vue 3 in Vite.
+this app uses the CoinGecko Cryptocurrency API to display current and historical cryptocurrency data.
 
 ## Recommended IDE Setup
 
