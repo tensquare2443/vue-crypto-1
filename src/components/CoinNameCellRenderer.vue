@@ -25,7 +25,7 @@ export default {
 <template>
   <div v-if="coin" class="coin-cell" @click="openCoinHistoryModal">
     <div class="coin-cell__logo-container">
-      <img :src="logo" alt="logo" class="coin-cell__logo" />
+      <img :src="logo" alt="" class="coin-cell__logo" />
     </div>
     <div class="coin__name">{{ name }}</div>
     <div class="small">({{ symbol }})</div>

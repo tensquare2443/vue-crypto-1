@@ -92,7 +92,7 @@ export default {
         <div class="modal-header">
           <div class="d-flex align-items-center">
             <div style="width: 26px; margin-right: 8px">
-              <img :src="coin.image" alt="logo" class="w-100" />
+              <img :src="coin.image" alt="" class="w-100" />
             </div>
             <div style="margin-right: 4px">
               <h5 class="modal-title" id="coinHistoryModalLabel">

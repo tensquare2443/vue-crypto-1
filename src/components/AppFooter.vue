@@ -24,18 +24,18 @@ export default {
       <img
         class="app-footer__logo"
         src="https://static.coingecko.com/s/thumbnail-d5a7c1de76b4bc1332e48227dc1d1582c2c92721b5552aae76664eecb68345c9.png"
-        alt="logo"
+        alt=""
       />
       <div>&nbsp;|&nbsp;</div>
       <div>
-        <a href="https://www.coingecko.com/en/api/documentation" target="_blank"
+        <a href="https://github.com/tensquare2443/vue-crypto-1" target="_blank"
           >View Repo</a
         >
       </div>
       <img
         class="app-footer__logo"
         src="github.png"
-        alt="logo"
+        alt=""
       />
     </div>
   </div>
