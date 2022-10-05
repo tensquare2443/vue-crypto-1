@@ -13,9 +13,10 @@ export default {
     const gridApi = ref(null);
     const gridColumnApi = ref(null);
 
-    const initiallyLoaded = reactive({ value: false });
-    const initiallyLoading = reactive({ value: false });
-    const stillInitiallyLoading = reactive({ value: false });
+    // const initiallyLoaded = reactive({ value: false });
+    const networkError = reactive({ value: false });
+    const loading = reactive({ value: false });
+    const stillLoading = reactive({ value: false });
 
     const onGridReady = (params) => {
       gridApi.value = params.api;
@@ -61,13 +62,16 @@ export default {
                */
             }
 
-            if (reqParams.page === 1 && !initiallyLoaded.value) {
-              initiallyLoading.value = true;
+            // if (reqParams.page === 1 && !initiallyLoaded.value) {
+            networkError.value = false;
+            loading.value = true;
 
-              setTimeout(() => {
-                stillInitiallyLoading.value = true;
-              }, 5000);
-            }
+            setTimeout(() => {
+              if (loading.value) {
+                stillLoading.value = true;
+              }
+            }, 5000);
+            // }
 
             axios
               .get(`/coins/markets?vs_currency=usd`, {
@@ -87,10 +91,13 @@ export default {
 
                 params.successCallback(coins);
               })
+              .catch(() => {
+                networkError.value = true;
+              })
               .finally(() => {
-                initiallyLoading.value = false;
-                stillInitiallyLoading.value = false;
-                initiallyLoaded.value = true;
+                loading.value = false;
+                stillLoading.value = false;
+                // initiallyLoaded.value = true;
               });
           },
         };
@@ -194,8 +201,9 @@ export default {
       rowSelection: "multiple",
       maxConcurrentDatasourceRequests: 1,
       maxBlocksInCache: 10,
-      initiallyLoading,
-      stillInitiallyLoading,
+      loading,
+      stillLoading,
+      networkError,
     };
   },
 };
@@ -219,16 +227,19 @@ export default {
       @grid-ready="onGridReady"
     />
     <div
-      v-if="initiallyLoading.value"
-      class="grid-loading__container text-center pt-5 position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
+      v-if="loading.value || networkError.value"
+      class="grid-loading__container text-center pt-5 px-2 position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
     >
-      <div>
+      <div v-if="loading.value">
         <div class="spinner-border text-secondary" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <div :class="{invisible: !stillInitiallyLoading.value}" class="mt-2">
+        <div :class="{ invisible: !stillLoading.value }" class="mt-2">
           Still fetching CoinGecko data...
         </div>
+      </div>
+      <div v-else-if="networkError.value">
+        There has been a CoinGecko API network error. Too many requests have been made. Please try again in a few minutes.
       </div>
     </div>
   </div>

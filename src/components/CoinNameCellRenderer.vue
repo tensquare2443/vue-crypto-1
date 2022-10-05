@@ -9,7 +9,12 @@ export default {
 
     const name = coin.name;
     const symbol = coin.symbol.toUpperCase();
-    const logo = coin.image;
+
+    let logo = coin.image;
+    if (logo.includes("?")) {
+      logo = logo.split("?")[0];
+    }
+
     const coinHistoryModal = useCoinHistoryModalStore();
     const openCoinHistoryModal = function () {
       if (window.innerWidth < 576) return;

@@ -22,6 +22,9 @@ export default {
     const dateRange = reactive({
       value: { start, end },
     });
+    const networkError = reactive({
+      value: false,
+    });
     const loading = reactive({
       value: false,
     });
@@ -32,6 +35,7 @@ export default {
     let coinData = reactive({ value: null });
 
     const getCoinData = () => {
+      console.log("getCoinData");
       const coinHistoryModalElement =
         document.getElementById("coinHistoryModal");
 
@@ -45,6 +49,7 @@ export default {
       };
 
       coinData.value = null;
+      networkError.value = false;
       loading.value = true;
       setTimeout(() => {
         if (loading.value) {
@@ -58,6 +63,9 @@ export default {
         })
         .then((res) => {
           coinData.value = res.data;
+        })
+        .catch(() => {
+          networkError.value = true;
         })
         .finally(() => {
           loading.value = false;
@@ -75,12 +83,21 @@ export default {
       if (typeof range.start === "object") {
         range.start = DateTime.fromJSDate(range.start).toISO();
         range.end = DateTime.fromJSDate(range.end).toISO();
-      }
 
-      getCoinData();
+        getCoinData();
+      }
     });
 
-    return { coin, maxDate, dateRange, coinData, DateTime, loading, stillLoading };
+    return {
+      coin,
+      maxDate,
+      dateRange,
+      coinData,
+      DateTime,
+      loading,
+      stillLoading,
+      networkError,
+    };
   },
 };
 </script>
@@ -148,12 +165,21 @@ export default {
               v-if="coinData.value"
               :coinData="coinData.value"
             />
-            <div v-if="loading.value" class="text-center pt-5">
-              <div class="spinner-border text-secondary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-              <div :class="{ invisible: !stillLoading.value }" class="mt-2">
-                Still fetching CoinGecko data...
+            <div
+              v-if="loading.value || networkError.value"
+              class="text-center pt-5"
+            >
+              <template v-if="loading.value">
+                <div class="spinner-border text-secondary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div :class="{ invisible: !stillLoading.value }" class="mt-2">
+                  Still fetching CoinGecko data...
+                </div>
+              </template>
+              <div v-else-if="networkError.value">
+                There has been a CoinGecko API network error. Too many requests
+                have been made. Please try again in a few minutes.
               </div>
             </div>
           </div>
