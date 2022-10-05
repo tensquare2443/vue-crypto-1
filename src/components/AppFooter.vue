@@ -34,7 +34,7 @@ export default {
       </div>
       <img
         class="app-footer__logo"
-        src="github.png"
+        src="/github.png"
         alt=""
       />
     </div>
