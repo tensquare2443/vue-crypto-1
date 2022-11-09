@@ -1,6 +1,10 @@
-# Vue Crypto Chart App
+# About Vue Crypto Chart App
 
-this app uses the CoinGecko Cryptocurrency API to display current and historical cryptocurrency data.
+This is a Vue app which uses the CoinGecko Cryptocurrency API to display cryptocurrency data. The app is also built with AG Grid, Chart JS, SCSS, and Bootstrap.
+
+The grid shows some current data on each coin. The grid can be sorted by certain columns by clicking on some of the column headers. The grid also uses "infinite scrolling".
+
+Click on a coin name in its row to view historical price data for that coin, going back many years if you'd like.
 
 ## Recommended IDE Setup
 

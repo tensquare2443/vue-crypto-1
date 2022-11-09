@@ -31,11 +31,13 @@ export default {
     const stillLoading = reactive({
       value: false,
     });
+    const latestReqTimestamp = reactive({
+      value: null,
+    });
     const coin = coinHistoryModal.data;
     let coinData = reactive({ value: null });
 
     const getCoinData = () => {
-      console.log("getCoinData");
       const coinHistoryModalElement =
         document.getElementById("coinHistoryModal");
 
@@ -51,8 +53,12 @@ export default {
       coinData.value = null;
       networkError.value = false;
       loading.value = true;
+
+      let reqTimestamp = +new Date();
+      latestReqTimestamp.value = reqTimestamp;
+
       setTimeout(() => {
-        if (loading.value) {
+        if (loading.value && reqTimestamp === latestReqTimestamp.value) {
           stillLoading.value = true;
         }
       }, 5000);
@@ -175,6 +181,9 @@ export default {
                 </div>
                 <div :class="{ invisible: !stillLoading.value }" class="mt-2">
                   Still fetching CoinGecko data...
+                  <br />
+                  CoinGecko throttles requests when there are too many. If it's
+                  taking too long, maybe try making fewer requests.
                 </div>
               </template>
               <div v-else-if="networkError.value">

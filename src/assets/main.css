@@ -20,6 +20,13 @@
   max-width: 1280px;
 }
 
+@media (max-width: 576px) {
+  /* for mobile */
+  #app {
+    height: 88vh;
+  }
+}
+
 .app__container {
   height: 100%;
   display: grid;

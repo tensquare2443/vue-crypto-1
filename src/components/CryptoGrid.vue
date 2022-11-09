@@ -17,6 +17,9 @@ export default {
     const networkError = reactive({ value: false });
     const loading = reactive({ value: false });
     const stillLoading = reactive({ value: false });
+    const latestReqTimestamp = reactive({
+      value: null,
+    });
 
     const onGridReady = (params) => {
       gridApi.value = params.api;
@@ -62,16 +65,17 @@ export default {
                */
             }
 
-            // if (reqParams.page === 1 && !initiallyLoaded.value) {
             networkError.value = false;
             loading.value = true;
 
+            let reqTimestamp = +new Date();
+            latestReqTimestamp.value = reqTimestamp;
+
             setTimeout(() => {
-              if (loading.value) {
+              if (loading.value && reqTimestamp === latestReqTimestamp.value) {
                 stillLoading.value = true;
               }
             }, 5000);
-            // }
 
             axios
               .get(`/coins/markets?vs_currency=usd`, {
@@ -234,12 +238,20 @@ export default {
         <div class="spinner-border text-secondary" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <div :class="{ invisible: !stillLoading.value }" class="mt-2">
+        <div
+          :class="{ invisible: !stillLoading.value }"
+          class="mt-2"
+          style="color: white"
+        >
           Still fetching CoinGecko data...
+          <br />
+          CoinGecko throttles requests when there are too many. If it's taking
+          too long, maybe try making fewer requests.
         </div>
       </div>
       <div v-else-if="networkError.value">
-        There has been a CoinGecko API network error. Too many requests have been made. Please try again in a few minutes.
+        There has been a CoinGecko API network error. Too many requests have
+        been made. Please try again in a few minutes.
       </div>
     </div>
   </div>
@@ -254,6 +266,6 @@ export default {
 .grid-loading__container {
   border-radius: 5px;
   top: 0px;
-  background-color: rgb(34, 34, 34, 0.5);
+  background-color: rgb(34, 34, 34, 0.7);
 }
 </style>
